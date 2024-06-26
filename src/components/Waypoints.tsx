@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 interface Waypoint {
-  ID: number;
+  Point: string;
   LatDeg: number;
   LatMn: number;
   LonDeg: number;
@@ -11,7 +11,7 @@ interface Waypoint {
 
 const Waypoints: React.FC = () => {
   const [waypoints, setWaypoints] = useState<Waypoint[]>([]);
-  const [newWaypoint, setNewWaypoint] = useState<Waypoint>({ ID: 0, LatDeg: 0, LatMn: 0, LonDeg: 0, LonMn: 0 });
+  const [newWaypoint, setNewWaypoint] = useState<Waypoint>({ Point: 'A', LatDeg: 0, LatMn: 0, LonDeg: 0, LonMn: 0 });
 
   useEffect(() => {
     fetchWaypoints();
@@ -24,7 +24,7 @@ const Waypoints: React.FC = () => {
 
   const addWaypoint = async () => {
     await axios.post('http://localhost:5000/api/waypoints', newWaypoint);
-    setNewWaypoint({ ID: 0, LatDeg: 0, LatMn: 0, LonDeg: 0, LonMn: 0 });
+    setNewWaypoint({ Point: 'A', LatDeg: 0, LatMn: 0, LonDeg: 0, LonMn: 0 });
     fetchWaypoints();
   };
 
@@ -43,10 +43,10 @@ const Waypoints: React.FC = () => {
       <h1>Waypoints</h1>
       <ul>
         {waypoints.map(waypoint => (
-          <li key={waypoint.ID}>
+          <li key={waypoint.Point}>
             {waypoint.LatDeg}°{waypoint.LatMn}' {waypoint.LonDeg}°{waypoint.LonMn}'
-            <button onClick={() => deleteWaypoint(waypoint.ID)}>Delete</button>
-            <button onClick={() => updateWaypoint(waypoint.ID, { ...waypoint, LatDeg: 0 })}>Update</button>
+            <button onClick={() => deleteWaypoint(waypoint.LonDeg)}>Delete</button>
+            <button onClick={() => updateWaypoint(waypoint.LonDeg, { ...waypoint, LatDeg: 0 })}>Update</button>
           </li>
         ))}
       </ul>
