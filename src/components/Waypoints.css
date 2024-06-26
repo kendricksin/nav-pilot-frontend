@@ -1,0 +1,63 @@
+.waypoints {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .waypoints h1 {
+    margin-bottom: 1rem;
+  }
+  
+  .waypoints ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .waypoints li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .waypoints li button {
+    margin-left: 1rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .waypoints li button:hover {
+    background-color: #eee;
+  }
+  
+  .waypoints form {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+  
+  .waypoints form input {
+    margin-right: 1rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .waypoints form button {
+    margin-top: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid #4CAF50; /* Green color */
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .waypoints form button:hover {
+    background-color: #3e8e41; /* Darker green on hover */
+  }
+  

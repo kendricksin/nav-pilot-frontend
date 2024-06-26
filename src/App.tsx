@@ -1,17 +1,20 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import NavMarks from "./components/NavMarks"
+import BearingTable from './components/BearingTable';
+import Waypoints from './components/Waypoints';
+import Header from './components/Header';
+// import Layout from './Layout';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 const App: React.FC = () => {
   return (
-    <div>
-      <nav>
-        <ul>
-          <li><Link to="/nav-marks">Nav Marks</Link></li>
-          <li><Link to="/waypoints">Waypoints</Link></li>
-          <li><Link to="/bearing-table">Bearing Table</Link></li>
-        </ul>
-      </nav>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Header />} /> 
+        <Route path="/waypoints" element={<Waypoints />} />
+        <Route path="/bearing-table" element={<BearingTable />} />
+      </Routes>
+    </Router>
   );
 }
 

@@ -12,9 +12,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <Router>
       <Routes>
         <Route path="/" element={<App />}>
-            <Route path="nav-marks" element={<NavMarks />} />
-            <Route path="waypoints" element={<Waypoints />} />
-            <Route path="bearing-table" element={<BearingTable />} />
+            <Route path="/nav-marks" element={<NavMarks />} />
+            <Route path="/waypoints" element={<Waypoints />} />
+            <Route path="/bearing-table" element={<BearingTable />} />
         </Route>
       </Routes>
     </Router>
