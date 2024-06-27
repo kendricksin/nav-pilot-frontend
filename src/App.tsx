@@ -3,28 +3,22 @@ import NavMarks from "./components/NavMarks"
 import BearingTable from './components/BearingTable';
 import Waypoints from './components/Waypoints';
 import Header from './components/Header';
+import ResponsiveAppBar from './components/Navbar';
 import './App.css'
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 const App: React.FC = () => {
   return (
-    <Router>
-      <div>
-        <nav>
-          <ul>
-            <Header />
-            <li><Link to = "/">Nav Marks</Link></li>
-            <li><Link to = "/waypoints">Waypoints</Link></li>
-            <li><Link to = "/bearing-table">Bearing Table</Link></li>
-          </ul>
-        </nav>
+    <div className='navbar'>
+      <ResponsiveAppBar />
       <Routes>
-        <Route path="/" element={<NavMarks />} /> 
-        <Route path="/waypoints" element={<Waypoints />} />
-        <Route path="/bearing-table" element={<BearingTable />} />
+        <Route path='/' element={<Header />} />
+        <Route path='NavMarks' element={<NavMarks />} />
+        <Route path='Waypoints' element={<Waypoints />} />
+        <Route path='BearingTable' element={<BearingTable />} />
       </Routes>
-      </div>
-    </Router>
+    </div>
+
   );
 }
 
