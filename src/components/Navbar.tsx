@@ -14,7 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from 'react-router-dom';
 
-const pages = ['NavMarks', 'WayPoints', 'BearingTable'];
+const pages = ['Home', 'NavMarks', 'WayPoints', 'BearingTable'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
@@ -46,22 +46,23 @@ function ResponsiveAppBar() {
             noWrap
             component="a"
             href="#app-bar-with-responsive-menu"
+            color='common.white'
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'inherit',
+              color: 'white',
               textDecoration: 'none',
             }}
           >
-            LOGO
+            Home
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
-              size="large"
+              size="medium"
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
@@ -103,6 +104,7 @@ function ResponsiveAppBar() {
             noWrap
             component="a"
             href="#app-bar-with-responsive-menu"
+            color="common.white"
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -110,11 +112,11 @@ function ResponsiveAppBar() {
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'inherit',
+              color: 'white',
               textDecoration: 'none',
             }}
           >
-            LOGO
+            WHERE IS THIS?
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
