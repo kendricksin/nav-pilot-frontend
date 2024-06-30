@@ -4,7 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import NavMarks from "./pages/NavMarks";
 import BearingTable from './pages/BearingTable';
 import Waypoints from './pages/Waypoints';
-import ResponsiveAppBar from './pages/Navbar';
+import ResponsiveAppBar from './pages/AppBar';
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
 

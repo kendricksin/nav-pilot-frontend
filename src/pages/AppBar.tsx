@@ -12,10 +12,30 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
+import { styled } from '@mui/material/styles';
 
-const pages = ['Home', 'NavMarks', 'WayPoints', 'BearingTable'];
+interface NavItem {
+  text: string;
+  path: string;
+}
+
+const navItems: NavItem[] = [
+  { text: 'Home', path: '/' },
+  { text: 'Navigation Marks', path: '/navmarks' },
+  { text: 'Waypoints', path: '/waypoints' },
+  { text: 'Bearing Table', path: '/bearing-table' },
+];
+
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+
+const StyledLink = styled(RouterLink)(({ theme }) => ({
+  color: 'inherit',
+  textDecoration: 'none',
+  '&:hover': {
+    textDecoration: 'underline',
+  },
+}));
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -44,25 +64,23 @@ function ResponsiveAppBar() {
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            color='common.white'
+            component={StyledLink}
+            to="/"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'white',
-              textDecoration: 'none',
+              color: 'inherit',
             }}
           >
-            Home
+            LOGO
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
-              size="medium"
+              size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
@@ -89,11 +107,11 @@ function ResponsiveAppBar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">
-                        <Link to = {`/${page}`}> {page} </Link>
-                    </Typography>
+              {navItems.map((item) => (
+                <MenuItem key={item.text} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">
+                    <StyledLink to={item.path}>{item.text}</StyledLink>
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -102,9 +120,8 @@ function ResponsiveAppBar() {
           <Typography
             variant="h5"
             noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            color="common.white"
+            component={StyledLink}
+            to="/"
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -112,20 +129,19 @@ function ResponsiveAppBar() {
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'white',
-              textDecoration: 'none',
+              color: 'inherit',
             }}
           >
-            WHERE IS THIS?
+            LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
+            {navItems.map((item) => (
               <Button
-                key={page}
+                key={item.text}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                <Link to = {`/${page}`}> {page} </Link>
+                <StyledLink to={item.path}>{item.text}</StyledLink>
               </Button>
             ))}
           </Box>
@@ -164,4 +180,5 @@ function ResponsiveAppBar() {
     </AppBar>
   );
 }
+
 export default ResponsiveAppBar;
