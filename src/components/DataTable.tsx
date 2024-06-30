@@ -26,18 +26,23 @@ interface EditToolbarProps {
   setRowModesModel: (
     newModel: (oldModel: GridRowModesModel) => GridRowModesModel,
   ) => void;
+  onAddNewRow: () => Promise<GridRowModel>;
 }
 
 function EditToolbar(props: EditToolbarProps) {
-  const { setRows, setRowModesModel } = props;
+  const { setRows, setRowModesModel, onAddNewRow } = props;
 
   const handleClick = () => {
-    const id = Math.floor(Math.random() * 100000);
-    setRows((oldRows) => [...oldRows, { id, name: '', age: '', isNew: true }]);
-    setRowModesModel((oldModel) => ({
-      ...oldModel,
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: 'name' },
-    }));
+    onAddNewRow().then((newRow) => {
+      setRows((oldRows) => [...oldRows, { ...newRow, isNew: true }]);
+      setRowModesModel((oldModel) => ({
+        ...oldModel,
+        [newRow.id]: { mode: GridRowModes.Edit, fieldToFocus: 'name' },
+      }));
+    }).catch((error) => {
+      console.error('Error adding new row:', error);
+      // Optionally, you can show an error message to the user here
+    });
   };
 
   return (
@@ -52,12 +57,15 @@ function EditToolbar(props: EditToolbarProps) {
 interface DataTableProps {
   initialRows: GridRowsProp;
   columns: GridColDef[];
+  onRowUpdate: (newRow: GridRowModel) => Promise<GridRowModel>;
+  onRowDelete: (id: GridRowId) => Promise<void>;
+  onAddNewRow: () => Promise<GridRowModel>;
 }
 
-const DataTable: React.FC<DataTableProps> = ({ initialRows, columns }) => {
+const DataTable: React.FC<DataTableProps> = ({ initialRows, columns, onRowUpdate, onRowDelete, onAddNewRow }) => {
   const [rows, setRows] = React.useState(initialRows);
   const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
-
+  
   const handleRowEditStop: GridEventListener<'rowEditStop'> = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
       event.defaultMuiPrevented = true;
@@ -73,7 +81,12 @@ const DataTable: React.FC<DataTableProps> = ({ initialRows, columns }) => {
   };
 
   const handleDeleteClick = (id: GridRowId) => () => {
-    setRows(rows.filter((row) => row.id !== id));
+    onRowDelete(id).then(() => {
+      setRows(rows.filter((row) => row.id !== id));
+    }).catch((error) => {
+      console.error('Error deleting row:', error);
+      // Optionally, you can show an error message to the user here
+    });
   };
 
   const handleCancelClick = (id: GridRowId) => () => {
@@ -88,10 +101,15 @@ const DataTable: React.FC<DataTableProps> = ({ initialRows, columns }) => {
     }
   };
 
-  const processRowUpdate = (newRow: GridRowModel) => {
-    const updatedRow = { ...newRow, isNew: false };
-    setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-    return updatedRow;
+  const processRowUpdate = async (newRow: GridRowModel) => {
+    try {
+      const updatedRow = await onRowUpdate(newRow);
+      setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+      return updatedRow;
+    } catch (error) {
+      console.error('Error updating row:', error);
+      throw error;
+    }
   };
 
   const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
@@ -172,7 +190,7 @@ const DataTable: React.FC<DataTableProps> = ({ initialRows, columns }) => {
           toolbar: EditToolbar as GridSlots['toolbar'],
         }}
         slotProps={{
-          toolbar: { setRows, setRowModesModel },
+          toolbar: { setRows, setRowModesModel, onAddNewRow },
         }}
       />
     </Box>

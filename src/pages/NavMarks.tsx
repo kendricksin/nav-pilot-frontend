@@ -56,26 +56,43 @@ const NavMarks: React.FC = () => {
     }
   };
 
-  // const handleRowUpdate = async (newRow: GridRowModel) => {
-  //   try {
-  //     await axios.patch(`YOUR_API_ENDPOINT/navmarks/${newRow.id}`, newRow);
-  //     setRows(rows.map((row) => (row.id === newRow.id ? newRow : row)));
-  //     return newRow;
-  //   } catch (error) {
-  //     console.error('Error updating row:', error);
-  //     throw error;
-  //   }
-  // };
+  const handleRowUpdate = async (newRow: GridRowModel) => {
+    try {
+      await axios.patch(`http://localhost:5000/api/nav-marks/${newRow.id}`, newRow);
+      setRows(rows.map((row) => (row.id === newRow.id ? newRow : row)));
+      return newRow;
+    } catch (error) {
+      console.error('Error updating row:', error);
+      throw error;
+    }
+  };
 
-  // const handleRowDelete = async (id: GridRowModel['id']) => {
-  //   try {
-  //     await axios.delete(`YOUR_API_ENDPOINT/navmarks/${id}`);
-  //     setRows(rows.filter((row) => row.id !== id));
-  //   } catch (error) {
-  //     console.error('Error deleting row:', error);
-  //     throw error;
-  //   }
-  // };
+  const handleRowDelete = async (id: GridRowModel['id']) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/nav-marks/${id}`);
+      setRows(rows.filter((row) => row.id !== id));
+    } catch (error) {
+      console.error('Error deleting row:', error);
+      throw error;
+    }
+  };
+
+  const handleAddNewRow = async () => {
+    try {
+      const newRow = {
+        Name: '',
+        LatDeg: 0,
+        LatMn: 0,
+        LonDeg: 0,
+        LonMn: 0
+      };
+      const response = await axios.post('http://localhost:5000/api/nav-marks', newRow);
+      return { ...response.data, id: response.data.id.toString() };
+    } catch (error) {
+      console.error('Error adding new row:', error);
+      throw error;
+    }
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -95,8 +112,9 @@ const NavMarks: React.FC = () => {
           <DataTable
             initialRows={rows}
             columns={columns}
-            // onRowUpdate={handleRowUpdate}
-            // onRowDelete={handleRowDelete}
+            onRowUpdate={handleRowUpdate}
+            onRowDelete={handleRowDelete}
+            onAddNewRow={handleAddNewRow}
           />
         </Paper>
       </Box>
